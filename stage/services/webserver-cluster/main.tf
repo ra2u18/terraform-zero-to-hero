@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "webserver_cluster" {
-  source =  "github.com/ra2u18/tf-modules-test//services/webserver-cluster?ref=v0.0.1"
+  source = "github.com/ra2u18/tf-modules-test//services/webserver-cluster?ref=v0.0.1"
 
   cluster_name           = "webservers-stage"
   db_remote_state_bucket = "tf-state-bucket-rick"
@@ -12,6 +12,12 @@ module "webserver_cluster" {
   instance_type = "t2.micro"
   min_size      = 2
   max_size      = 2
+  enable_autoscaling     = false
+  
+  custom_tags = {
+    Owner     = "team-bar"
+    ManagedBy = "terraform"
+  }
 }
 
 resource "aws_security_group_rule" "allow_testing_inbound" {
